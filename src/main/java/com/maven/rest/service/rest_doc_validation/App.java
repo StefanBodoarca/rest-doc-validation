@@ -11,9 +11,11 @@ public class App {
     	JAXRSServerFactoryBean sfb = new JAXRSServerFactoryBean();
     	serviceImpl = new ServiceImpl();
 		sfb.setServiceBean(serviceImpl.restValidationService());
-		sfb.setAddress("http://localhost:" + args[0] + "/services" + REST_VALIDATION);
+		sfb.setAddress("http://" + args[0] + ":" + args[1] + "/services" + REST_VALIDATION);
 		sfb.setProvider(serviceImpl.jacksonJsonProvider());
 		sfb.setProvider(serviceImpl.exceptionRestMapper());
 		sfb.create();
+		System.out.println("Server ready...");
+		System.out.println("Listening on " + args[0] + ":" + args[1]);
     }
 }
