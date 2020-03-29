@@ -1,21 +1,30 @@
 package com.maven.rest.service.rest_doc_validation;
 
-import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
-
 public class App {
-	
-	public static final String REST_VALIDATION = "/rest/validation";
-	private static ServiceImpl serviceImpl = null;
+	private static String bindingIP;
+	private static String bindingPort;
+	private static Server server = null;
     
-	public static void main( String[] args ) throws Exception {
-    	JAXRSServerFactoryBean sfb = new JAXRSServerFactoryBean();
-    	serviceImpl = new ServiceImpl();
-		sfb.setServiceBean(serviceImpl.restValidationService());
-		sfb.setAddress("http://" + args[0] + ":" + args[1] + "/services" + REST_VALIDATION);
-		sfb.setProvider(serviceImpl.jacksonJsonProvider());
-		sfb.setProvider(serviceImpl.exceptionRestMapper());
-		sfb.create();
-		System.out.println("Server ready...");
-		System.out.println("Listening on " + args[0] + ":" + args[1]);
+	public static void main( String[] args ) {
+    	try {
+    		initIpAndPort(args);
+    		server = new Server();
+    		server.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
+	
+	private static void initIpAndPort(String[] args) {
+		bindingIP = args[0];
+		bindingPort = args[1];
+	}
+	
+	public static String getBindingIp() {
+		return bindingIP;
+	}
+	
+	public static String getBindingPort() {
+		return bindingPort;
+	}
 }
